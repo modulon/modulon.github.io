@@ -1,0 +1,6 @@
+{
+  "name": "Modulon",
+  "tagline": "A 64 bit kernel written in Rust",
+  "body": "![alt text](https://travis-ci.org/modulon/kernel.svg?branch=master)\r\n# Modulon v0.1.6 Buttered Potato\r\n\r\nModulon is a 64 bit operating system written in Rust.\r\n\r\n#Features\r\n\r\n* 64 bit\r\n* VGA module\r\n* Physical page frame allocator\r\n* Panic handling\r\n\r\nVersion Buttered Potato: Slightly more functional than a potato loaded onto a ROM.\r\n\r\n![alt text](https://raw.githubusercontent.com/modulon/kernel/master/screenshot.png)",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
