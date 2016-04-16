@@ -1,9 +1,12 @@
 ---
 layout: default
+title: index
 ---
 
 <div class="home">
 
-	{{ content }}
+
+	{% capture index %}{% include index.md %}{% endcapture %}
+	{{ index  | markdownify }}
 
 </div>

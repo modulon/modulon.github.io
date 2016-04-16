@@ -1,7 +1,3 @@
----
-layout: default
----
-
 ![build](https://circleci.com/gh/modulon/kernel.svg?style=shield&circle-token=:circle-token) ![Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)
 
 # v0.1.6
