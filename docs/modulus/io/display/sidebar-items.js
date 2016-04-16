@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["VIDEO_HEIGHT",""],["VIDEO_WIDTH",""]],"enum":[["Color",""]],"mod":[["common_color","Commonly used colors"],["terminal","Terminal functionality built upon core VGA driver"]],"struct":[["Entry",""],["Writer",""]]});

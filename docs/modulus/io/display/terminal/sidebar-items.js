@@ -1,0 +1,1 @@
+initSidebarItems({"static":[["TERM",""]],"struct":[["Terminal",""]]});

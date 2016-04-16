@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Area","Represents a memory area"],["AreaFrameAlloc","Allocates page frames for a specific memory area"]]});
