@@ -11,3 +11,5 @@ Here is a small list of currently implemented features:
 * VGA module
 * Physical page frame allocator
 * Panic handling
+
+#[Github](https://github.com/modulus-os/kernel)
