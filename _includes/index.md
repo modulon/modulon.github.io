@@ -12,4 +12,4 @@ Here is a small list of currently implemented features:
 * Physical page frame allocator
 * Panic handling
 
-#[Github](https://github.com/modulus-os/kernel)
+# [Github](https://github.com/modulus-os/kernel)
