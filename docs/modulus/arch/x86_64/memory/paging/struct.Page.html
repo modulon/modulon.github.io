@@ -47,13 +47,26 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-147' class='srclink' href='../../../../../src/modulus/src/arch/x86_64/memory/paging/mod.rs.html#24-26' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-144' class='srclink' href='../../../../../src/modulus/src/arch/x86_64/memory/paging/mod.rs.html#23-25' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Page {
     // some fields omitted
 }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../../../../modulus/arch/x86_64/memory/paging/struct.Page.html' title='modulus::arch::x86_64::memory::paging::Page'>Page</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(number: u64) -&gt; Self</code></h4>
 <h4 id='method.virt_addr' class='method'><code>fn <a href='#method.virt_addr' class='fnname'>virt_addr</a>(&amp;self) -&gt; u64</code></h4>
-<h4 id='method.create_tables' class='method'><code>fn <a href='#method.create_tables' class='fnname'>create_tables</a>()</code></h4>
-</div></section>
+<h4 id='method.p4_index' class='method'><code>fn <a href='#method.p4_index' class='fnname'>p4_index</a>(&amp;self) -&gt; u64</code></h4>
+<div class='docblock'><p>Returns index of page in P4 table</p>
+</div><h4 id='method.p3_index' class='method'><code>fn <a href='#method.p3_index' class='fnname'>p3_index</a>(&amp;self) -&gt; u64</code></h4>
+<div class='docblock'><p>Returns index of page in P3 table</p>
+</div><h4 id='method.p2_index' class='method'><code>fn <a href='#method.p2_index' class='fnname'>p2_index</a>(&amp;self) -&gt; u64</code></h4>
+<div class='docblock'><p>Returns index of page in P2 table</p>
+</div><h4 id='method.p1_index' class='method'><code>fn <a href='#method.p1_index' class='fnname'>p1_index</a>(&amp;self) -&gt; u64</code></h4>
+<div class='docblock'><p>Returns index of page in P1 table</p>
+</div><h4 id='method.map_page' class='method'><code>fn <a href='#method.map_page' class='fnname'>map_page</a>&lt;T: <a class='trait' href='../../../../../modulus/arch/x86_64/memory/alloc/trait.FrameAlloc.html' title='modulus::arch::x86_64::memory::alloc::FrameAlloc'>FrameAlloc</a>&gt;(&amp;self, address: u64, allocator: &amp;mut T)</code></h4>
+<div class='docblock'><p>Create page tables and allocate page</p>
+
+<p>This function walks through the page tables. If the next table is present, it jumps
+to it and continues. Otherwise, it allocates a frame and writes its address to the entry.
+Once it is done, it allocates the actual frame.</p>
+</div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
