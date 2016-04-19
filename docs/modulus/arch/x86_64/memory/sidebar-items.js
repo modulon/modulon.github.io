@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["PAGE_SIZE",""]],"fn":[["init_area_frame_alloc","Initialize area frame allocator"],["test_paging",""]],"mod":[["alloc",""],["frame",""],["paging",""]]});
+initSidebarItems({"constant":[["PAGE_SIZE",""]],"fn":[["init_area_frame_alloc","Initialize area frame allocator"]],"mod":[["alloc",""],["frame",""],["paging",""]]});

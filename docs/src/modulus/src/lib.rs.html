@@ -116,12 +116,6 @@
 <span id="72">72</span>
 <span id="73">73</span>
 <span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>lang_items</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>const_fn</span>)]</span>
@@ -163,14 +157,13 @@
 <span class='comment'>// Version information</span>
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_MAJOR</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0</span>;
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_MID</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>1</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_MINOR</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>6</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_COMMIT</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>5</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_MINOR</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>7</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_COMMIT</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0</span>;
 
 <span class='comment'>// Reexport x86_64 architecture components</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arch</span>::<span class='ident'>x86_64</span>::<span class='op'>*</span>;
 
 <span class='kw'>use</span> <span class='ident'>io</span>::<span class='ident'>display</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='ident'>memory</span>::<span class='ident'>alloc</span>::<span class='ident'>FrameAlloc</span>;
 
 <span class='doccomment'>/// Kernel main</span>
 <span class='doccomment'>///</span>
@@ -185,23 +178,18 @@
     <span class='ident'>terminal</span>::<span class='ident'>TERM</span>.<span class='ident'>lock</span>().<span class='ident'>set_color</span>(<span class='ident'>common_color</span>::<span class='ident'>GREEN</span>);
     <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;Modulus&quot;</span>);
     <span class='ident'>terminal</span>::<span class='ident'>TERM</span>.<span class='ident'>lock</span>().<span class='ident'>set_color</span>(<span class='ident'>common_color</span>::<span class='ident'>WHITE</span>);
-    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; v{}.{}.{}.{} Buttered Potato\n\n&quot;</span>,
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; v{}.{}.{}.{}\n\n&quot;</span>,
            <span class='ident'>VERSION_MAJOR</span>,
            <span class='ident'>VERSION_MID</span>,
            <span class='ident'>VERSION_MINOR</span>,
            <span class='ident'>VERSION_COMMIT</span>);
 
     <span class='comment'>// Initialize frame allocation</span>
-    <span class='comment'>// print!(&quot; &gt;&gt; Initializing memory management\n&quot;);</span>
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; &gt;&gt; Initializing memory management\n&quot;</span>);
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>alloc</span> <span class='op'>=</span> <span class='ident'>memory</span>::<span class='ident'>init_area_frame_alloc</span>(<span class='ident'>mb_info_address</span>);
 
-    <span class='comment'>// Test frame allocation</span>
-    <span class='ident'>alloc</span>.<span class='ident'>alloc</span>();
-
-    <span class='comment'>// Test paging</span>
-    <span class='ident'>memory</span>::<span class='ident'>test_paging</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>alloc</span>);
-
     <span class='comment'>// Initialization complete</span>
+    <span class='kw'>loop</span> {}
 }
 </pre>
 </section>
