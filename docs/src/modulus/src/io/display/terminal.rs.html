@@ -120,6 +120,13 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>macro_use</span>]</span>
 
@@ -182,6 +189,12 @@
             <span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>write_index</span>(<span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>at</span>(<span class='ident'>i</span> <span class='op'>+</span> <span class='ident'>display</span>::<span class='ident'>VIDEO_WIDTH</span>), <span class='ident'>i</span>);
         }
     }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>backspace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>write_index</span>(<span class='ident'>display</span>::<span class='ident'>Entry</span>::<span class='ident'>new</span>(<span class='string'>b&#39; &#39;</span>, <span class='self'>self</span>.<span class='ident'>color</span>),
+                                <span class='self'>self</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>display</span>::<span class='ident'>VIDEO_WIDTH</span> <span class='op'>+</span> <span class='self'>self</span>.<span class='ident'>x</span> <span class='op'>-</span> <span class='number'>1</span>);
+        <span class='self'>self</span>.<span class='ident'>x</span> <span class='op'>-=</span> <span class='number'>1</span>;
+    }
 }
 
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Write</span> <span class='kw'>for</span> <span class='ident'>Terminal</span> {
@@ -189,6 +202,7 @@
         <span class='kw'>for</span> <span class='ident'>byte</span> <span class='kw'>in</span> <span class='ident'>s</span>.<span class='ident'>bytes</span>() {
             <span class='kw'>match</span> <span class='ident'>byte</span> {
                 <span class='string'>b&#39;\n&#39;</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>newline</span>(),
+                <span class='string'>b&#39;\x08&#39;</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>backspace</span>(),
                 <span class='ident'>byte</span> <span class='op'>=&gt;</span> {
                     <span class='self'>self</span>.<span class='ident'>writer</span>.<span class='ident'>write_index</span>(<span class='ident'>display</span>::<span class='ident'>Entry</span>::<span class='ident'>new</span>(<span class='ident'>byte</span>, <span class='self'>self</span>.<span class='ident'>color</span>),
                                             <span class='self'>self</span>.<span class='ident'>y</span> <span class='op'>*</span> <span class='ident'>display</span>::<span class='ident'>VIDEO_WIDTH</span> <span class='op'>+</span> <span class='self'>self</span>.<span class='ident'>x</span>);

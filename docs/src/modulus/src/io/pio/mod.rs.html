@@ -113,96 +113,76 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
-<span id="72">72</span>
-<span id="73">73</span>
-<span id="74">74</span>
-<span id="75">75</span>
-<span id="76">76</span>
-<span id="77">77</span>
-<span id="78">78</span>
-<span id="79">79</span>
-<span id="80">80</span>
-<span id="81">81</span>
 </pre><pre class='rust '>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Port</span> {
-    <span class='ident'>port</span>: <span class='ident'>u16</span>,
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outb</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
+	<span class='kw'>unsafe</span>{
+		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outb %al, %dx&quot;</span>
+			:
+			: <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>), <span class='string'>&quot;{al}&quot;</span>(<span class='ident'>value</span>)
+			:
+			: <span class='string'>&quot;volatile&quot;</span>);
+	}
 }
 
-<span class='kw'>impl</span> <span class='ident'>Port</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='ident'>Port</span> {
-        <span class='ident'>Port</span> { <span class='ident'>port</span>: <span class='ident'>port</span> }
-    }
-
-	<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outb</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
-		<span class='kw'>unsafe</span>{
-			<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outb %al, %dx&quot;</span>
-				:
-				: <span class='string'>&quot;{dx}&quot;</span>(<span class='self'>self</span>.<span class='ident'>port</span>), <span class='string'>&quot;{al}&quot;</span>(<span class='ident'>value</span>)
-				:
-        		: <span class='string'>&quot;volatile&quot;</span>);
-		}
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outw</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
+	<span class='kw'>unsafe</span>{
+		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outw %ax, %dx&quot;</span>
+			:
+			: <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>), <span class='string'>&quot;{ax}&quot;</span>(<span class='ident'>value</span>)
+			:
+			: <span class='string'>&quot;volatile&quot;</span>);
 	}
+}
 
-	<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outw</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
-		<span class='kw'>unsafe</span>{
-			<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outw %ax, %dx&quot;</span>
-				:
-				: <span class='string'>&quot;{dx}&quot;</span>(<span class='self'>self</span>.<span class='ident'>port</span>), <span class='string'>&quot;{ax}&quot;</span>(<span class='ident'>value</span>)
-				:
-        		: <span class='string'>&quot;volatile&quot;</span>);
-		}
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outl</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
+	<span class='kw'>unsafe</span>{
+		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outl %eax, %dx&quot;</span>
+			:
+			: <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>), <span class='string'>&quot;{eax}&quot;</span>(<span class='ident'>value</span>)
+			:
+			: <span class='string'>&quot;volatile&quot;</span>);
 	}
+}
 
-	<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outl</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
-		<span class='kw'>unsafe</span>{
-			<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outl %eax, %dx&quot;</span>
-				:
-				: <span class='string'>&quot;{dx}&quot;</span>(<span class='self'>self</span>.<span class='ident'>port</span>), <span class='string'>&quot;{eax}&quot;</span>(<span class='ident'>value</span>)
-				:
-        		: <span class='string'>&quot;volatile&quot;</span>);
-		}
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inb</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span>{
+	<span class='kw'>unsafe</span>{
+		<span class='kw'>let</span> <span class='ident'>res</span>: <span class='ident'>u8</span>;
+		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;inb %dx, %al&quot;</span>
+			: <span class='string'>&quot;={al}&quot;</span>(<span class='ident'>res</span>)
+			: <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>)
+			:
+			: <span class='string'>&quot;volatile&quot;</span>);
+		<span class='ident'>res</span>
 	}
+}
 
-	<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inb</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span>{
-		<span class='kw'>unsafe</span>{
-			<span class='kw'>let</span> <span class='ident'>res</span>: <span class='ident'>u8</span>;
-			<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;inb %dx, %al&quot;</span>
-				: <span class='string'>&quot;={al}&quot;</span>(<span class='ident'>res</span>)
-				: <span class='string'>&quot;{dx}&quot;</span>(<span class='self'>self</span>.<span class='ident'>port</span>)
-				:
-				: <span class='string'>&quot;volatile&quot;</span>);
-			<span class='ident'>res</span>
-		}
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inw</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='ident'>u16</span>{
+	<span class='kw'>unsafe</span>{
+		<span class='kw'>let</span> <span class='ident'>res</span>: <span class='ident'>u16</span>;
+		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;inw %dx, %ax&quot;</span>
+			: <span class='string'>&quot;={ax}&quot;</span>(<span class='ident'>res</span>)
+			: <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>)
+			:
+			: <span class='string'>&quot;volatile&quot;</span>);
+		<span class='ident'>res</span>
 	}
+}
 
-	<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inw</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u16</span>{
-		<span class='kw'>unsafe</span>{
-			<span class='kw'>let</span> <span class='ident'>res</span>: <span class='ident'>u16</span>;
-			<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;inw %dx, %ax&quot;</span>
-				: <span class='string'>&quot;={ax}&quot;</span>(<span class='ident'>res</span>)
-				: <span class='string'>&quot;{dx}&quot;</span>(<span class='self'>self</span>.<span class='ident'>port</span>)
-				:
-				: <span class='string'>&quot;volatile&quot;</span>);
-			<span class='ident'>res</span>
-		}
-	}
-
-	<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inl</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>{
-		<span class='kw'>unsafe</span>{
-			<span class='kw'>let</span> <span class='ident'>res</span>: <span class='ident'>u32</span>;
-			<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;inl %dx, %eax&quot;</span>
-				: <span class='string'>&quot;={eax}&quot;</span>(<span class='ident'>res</span>)
-				: <span class='string'>&quot;{dx}&quot;</span>(<span class='self'>self</span>.<span class='ident'>port</span>)
-				:
-				: <span class='string'>&quot;volatile&quot;</span>);
-			<span class='ident'>res</span>
-		}
+<span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inl</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>{
+	<span class='kw'>unsafe</span>{
+		<span class='kw'>let</span> <span class='ident'>res</span>: <span class='ident'>u32</span>;
+		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;inl %dx, %eax&quot;</span>
+			: <span class='string'>&quot;={eax}&quot;</span>(<span class='ident'>res</span>)
+			: <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>)
+			:
+			: <span class='string'>&quot;volatile&quot;</span>);
+		<span class='ident'>res</span>
 	}
 }
 </pre>

@@ -52,18 +52,16 @@
 <span id="8"> 8</span>
 <span id="9"> 9</span>
 <span id="10">10</span>
-<span id="11">11</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>io</span>::<span class='ident'>pio</span>::<span class='ident'>Port</span>;
+<span class='kw'>use</span> <span class='ident'>io</span>::<span class='ident'>pio</span>::<span class='op'>*</span>;
 
 <span class='doccomment'>/// Simple system reboot using 8042 keyboard controller</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>reboot</span>() {
-    <span class='kw'>let</span> <span class='ident'>port</span> <span class='op'>=</span> <span class='ident'>Port</span>::<span class='ident'>new</span>(<span class='number'>0x64</span>);
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>good</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='number'>0x02</span>;
     <span class='kw'>while</span> <span class='ident'>good</span> <span class='kw-2'>&amp;</span> <span class='number'>0x02</span> <span class='op'>!=</span> <span class='number'>0</span> {
-        <span class='ident'>good</span> <span class='op'>=</span> <span class='ident'>port</span>.<span class='ident'>inb</span>();
+        <span class='ident'>good</span> <span class='op'>=</span> <span class='ident'>inb</span>(<span class='number'>0x64</span>);
     }
-    <span class='ident'>port</span>.<span class='ident'>outb</span>(<span class='number'>0xfe</span>);
+    <span class='ident'>outb</span>(<span class='number'>0x64</span>, <span class='number'>0xfe</span>);
 }
 </pre>
 </section>

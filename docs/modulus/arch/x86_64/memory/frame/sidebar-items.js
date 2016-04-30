@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Frame","A representation of a physical memory frame"]]});

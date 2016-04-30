@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["interrupts","IDT config the x86_64 architecture"],["memory","Memory management for the x86_64 architecture"]]});

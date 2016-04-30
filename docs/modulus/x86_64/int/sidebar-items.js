@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["init",""]],"mod":[["exceptions","Defines exception handlers"],["isrs","Defines ISRs"],["pic","PIC functions"]],"struct":[["Entry","64-bit IDT descriptor entry"]]});

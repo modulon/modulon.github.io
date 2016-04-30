@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Port",""]]});
+initSidebarItems({"fn":[["inb",""],["inl",""],["inw",""],["outb",""],["outl",""],["outw",""]]});

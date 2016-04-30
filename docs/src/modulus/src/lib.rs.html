@@ -116,10 +116,13 @@
 <span id="72">72</span>
 <span id="73">73</span>
 <span id="74">74</span>
+<span id="75">75</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>lang_items</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>const_fn</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>asm</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>naked_functions</span>)]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>type_ascription</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>no_std</span>]</span>
 
 <span class='comment'>// Multiboot crate for retrieving boot information</span>
@@ -129,17 +132,12 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>spin</span>;
 
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
-<span class='comment'>// Bitflags crate</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>bitflags</span>;
-
-<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='doccomment'>/// Macros</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>macros</span>;
-<span class='doccomment'>/// Architecture specific code</span>
+<span class='doccomment'>/// x86_64 specific code</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// This module contains code that is not architecture independent, which would otherwise pollute</span>
-<span class='doccomment'>/// the main kernel code.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>arch</span>;
+<span class='doccomment'>/// This module contains code specific to the x86_64 architecture such as MM, interrupts, etc.</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>x86_64</span>;
 <span class='doccomment'>/// Common functions</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// Contains common kernel functions such as power management and panic handling.</span>
@@ -155,13 +153,10 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>io</span>;
 
 <span class='comment'>// Version information</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_MAJOR</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_MID</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>1</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_MINOR</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>7</span>;
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION_COMMIT</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0</span>;
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VERSION</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;0.1.8&quot;</span>;
 
 <span class='comment'>// Reexport x86_64 architecture components</span>
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>arch</span>::<span class='ident'>x86_64</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>x86_64</span>::<span class='op'>*</span>;
 
 <span class='kw'>use</span> <span class='ident'>io</span>::<span class='ident'>display</span>::<span class='op'>*</span>;
 
@@ -171,24 +166,31 @@
 <span class='doccomment'>/// This function initializes the kernel.</span>
 <span class='attribute'>#[<span class='ident'>no_mangle</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span> <span class='ident'>kmain</span>(<span class='ident'>mb_info_address</span>: <span class='ident'>usize</span>) {
+
     <span class='comment'>// Clear text-mode terminal</span>
     <span class='ident'>terminal</span>::<span class='ident'>TERM</span>.<span class='ident'>lock</span>().<span class='ident'>clear</span>();
 
     <span class='comment'>// Display version information</span>
     <span class='ident'>terminal</span>::<span class='ident'>TERM</span>.<span class='ident'>lock</span>().<span class='ident'>set_color</span>(<span class='ident'>common_color</span>::<span class='ident'>GREEN</span>);
-    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;Modulus&quot;</span>);
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;Modulus &quot;</span>);
     <span class='ident'>terminal</span>::<span class='ident'>TERM</span>.<span class='ident'>lock</span>().<span class='ident'>set_color</span>(<span class='ident'>common_color</span>::<span class='ident'>WHITE</span>);
-    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; v{}.{}.{}.{}\n\n&quot;</span>,
-           <span class='ident'>VERSION_MAJOR</span>,
-           <span class='ident'>VERSION_MID</span>,
-           <span class='ident'>VERSION_MINOR</span>,
-           <span class='ident'>VERSION_COMMIT</span>);
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}\n\n&quot;</span>, <span class='ident'>VERSION</span>);
 
     <span class='comment'>// Initialize frame allocation</span>
     <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; &gt;&gt; Initializing memory management\n&quot;</span>);
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>alloc</span> <span class='op'>=</span> <span class='ident'>memory</span>::<span class='ident'>init_area_frame_alloc</span>(<span class='ident'>mb_info_address</span>);
+    <span class='kw'>let</span> <span class='ident'>alloc</span> <span class='op'>=</span> <span class='ident'>memory</span>::<span class='ident'>init_area_frame_alloc</span>(<span class='ident'>mb_info_address</span>);
 
-    <span class='comment'>// Initialization complete</span>
+    <span class='comment'>// Initialize PIC</span>
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; &gt;&gt; Initializing PIC\n&quot;</span>);
+    <span class='ident'>int</span>::<span class='ident'>pic</span>::<span class='ident'>remap</span>(<span class='number'>0x20</span>, <span class='number'>0x28</span>);
+    <span class='comment'>// Temporarily mask PICs</span>
+    <span class='ident'>io</span>::<span class='ident'>pio</span>::<span class='ident'>outb</span>(<span class='number'>0x21</span>, <span class='number'>0xfd</span>);
+    <span class='ident'>io</span>::<span class='ident'>pio</span>::<span class='ident'>outb</span>(<span class='number'>0x2a</span>, <span class='number'>0xff</span>);
+
+    <span class='comment'>// Initialize IDT</span>
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; &gt;&gt; Initializing IDT\n&quot;</span>);
+    <span class='ident'>int</span>::<span class='ident'>init</span>();
+
     <span class='kw'>loop</span> {}
 }
 </pre>
