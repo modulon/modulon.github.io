@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["power","Power management"],["time","Global startup time"]]});

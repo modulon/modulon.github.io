@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["VIDEO_HEIGHT",""],["VIDEO_WIDTH",""]],"enum":[["Color",""]],"mod":[["common_color","Commonly used colors"],["terminal","Terminal functionality built upon core VGA driver"]],"struct":[["Entry",""],["Writer",""]]});
+initSidebarItems({"constant":[["GREEN",""],["LCYAN",""],["RED",""],["VIDEO_HEIGHT",""],["VIDEO_WIDTH",""],["WHITE",""]],"enum":[["Color",""]],"mod":[["terminal","Terminal functionality built upon core VGA driver"]],"struct":[["Entry",""],["Writer",""]]});

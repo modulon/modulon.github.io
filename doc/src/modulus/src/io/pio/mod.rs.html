@@ -126,7 +126,7 @@
 }
 
 <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outw</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outw</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>value</span>: <span class='ident'>u16</span>) {
 	<span class='kw'>unsafe</span>{
 		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outw %ax, %dx&quot;</span>
 			:
@@ -137,7 +137,7 @@
 }
 
 <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>rustfmt</span>, <span class='ident'>rustfmt_skip</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outl</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>value</span>: <span class='ident'>u8</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>outl</span>(<span class='ident'>port</span>: <span class='ident'>u16</span>, <span class='ident'>value</span>: <span class='ident'>u32</span>) {
 	<span class='kw'>unsafe</span>{
 		<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;outl %eax, %dx&quot;</span>
 			:
