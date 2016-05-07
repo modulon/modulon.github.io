@@ -48,12 +48,12 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a id='src-323' class='srclink' href='../../../../src/modulus/src/io/display/terminal.rs.html#15-20' title='goto source code'>[src]</a></span></h1>
-<pre class='rust static'>pub static TERM: Mutex&lt;<a class='struct' href='../../../../modulus/io/display/terminal/struct.Terminal.html' title='modulus::io::display::terminal::Terminal'>Terminal</a>&gt;<code> = </code><code>Mutex::new(Terminal {
-    writer: display::Writer { ptr: 0xb8000 },
-    color: display::Color::new(display::Color::White, display::Color::Black),
-    x: 0,
-    y: 0,
-})</code></pre></section>
+<pre class='rust static'>pub static TERM: <a class='struct' href='../../../../spin/mutex/struct.Mutex.html' title='spin::mutex::Mutex'>Mutex</a>&lt;<a class='struct' href='../../../../modulus/io/display/terminal/struct.Terminal.html' title='modulus::io::display::terminal::Terminal'>Terminal</a>&gt;<code> = </code><code>Mutex::new(Terminal{writer: display::Writer{ptr: 753664,},
+                    color:
+                        display::Color::new(display::Color::White,
+                                            display::Color::Black),
+                    x: 0,
+                    y: 0,})</code></pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
