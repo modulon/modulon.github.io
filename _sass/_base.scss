@@ -205,3 +205,18 @@ pre {
         }
     }
 }
+
+.site-logo {
+	> svg {
+			display: inline-block;
+			padding: 12px;
+			width: 35px;
+			height: 35px;
+			vertical-align: middle;
+
+			path {
+					fill: $grey-color;
+			}
+	}
+
+}
