@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["ELF_SECTION_ALLOCATED",""],["ELF_SECTION_EXECUTABLE",""],["ELF_SECTION_WRITABLE",""]],"enum":[["ElfSectionType",""]],"struct":[["ElfSection",""],["ElfSectionFlags",""],["ElfSectionIter",""],["ElfSectionsTag",""]]});

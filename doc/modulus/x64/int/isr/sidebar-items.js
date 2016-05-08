@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["US_KB","US keyboard layout Modified version of layout found here: http://www.osdever.net/bkerndev/Docs/keyboard.htm The escaped \"x09\" represents a null character and is ignored."]],"fn":[["kb",""],["pit",""],["primary_ata",""],["secondary_ata",""],["sys",""]]});

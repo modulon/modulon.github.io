@@ -120,12 +120,11 @@
 <span id="76">76</span>
 <span id="77">77</span>
 <span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
 </pre><pre class='rust '>
 <span class='doccomment'>/// Terminal functionality built upon core VGA driver</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>terminal</span>;
-
-<span class='doccomment'>/// Commonly used colors</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>common_color</span>;
 
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VIDEO_WIDTH</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>80</span>;
 <span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>VIDEO_HEIGHT</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>25</span>;
@@ -150,6 +149,11 @@
     <span class='ident'>Yellow</span> <span class='op'>=</span> <span class='number'>14</span>,
     <span class='ident'>White</span> <span class='op'>=</span> <span class='number'>15</span>,
 }
+
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>WHITE</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='ident'>Color</span>::<span class='ident'>new</span>(<span class='ident'>Color</span>::<span class='ident'>White</span>, <span class='ident'>Color</span>::<span class='ident'>Black</span>);
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>GREEN</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='ident'>Color</span>::<span class='ident'>new</span>(<span class='ident'>Color</span>::<span class='ident'>Green</span>, <span class='ident'>Color</span>::<span class='ident'>Black</span>);
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>RED</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='ident'>Color</span>::<span class='ident'>new</span>(<span class='ident'>Color</span>::<span class='ident'>Red</span>, <span class='ident'>Color</span>::<span class='ident'>Black</span>);
+<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>LCYAN</span>: <span class='ident'>u8</span> <span class='op'>=</span> <span class='ident'>Color</span>::<span class='ident'>new</span>(<span class='ident'>Color</span>::<span class='ident'>LightCyan</span>, <span class='ident'>Color</span>::<span class='ident'>Black</span>);
 
 <span class='kw'>impl</span> <span class='ident'>Color</span> {
     <span class='kw'>pub</span> <span class='kw'>const</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>fg</span>: <span class='ident'>Color</span>, <span class='ident'>bg</span>: <span class='ident'>Color</span>) <span class='op'>-&gt;</span> <span class='ident'>u8</span> {
