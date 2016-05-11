@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Iso9660",""],["PathEntry",""]]});
+initSidebarItems({"struct":[["DirectoryEntry",""],["DirectoryIter",""],["Iso9660",""]]});

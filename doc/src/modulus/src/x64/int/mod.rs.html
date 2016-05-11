@@ -122,6 +122,11 @@
 <span id="78">78</span>
 <span id="79">79</span>
 <span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
 </pre><pre class='rust '>
 <span class='doccomment'>/// Defines exception handlers</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>exception</span>;
@@ -159,6 +164,8 @@
 
     <span class='ident'>idt</span>[<span class='number'>32</span>] <span class='op'>=</span> <span class='ident'>Entry</span>::<span class='ident'>new</span>(<span class='ident'>asm_pit</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> () <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='number'>0x8</span>, <span class='number'>0x8e</span>);
     <span class='ident'>idt</span>[<span class='number'>33</span>] <span class='op'>=</span> <span class='ident'>Entry</span>::<span class='ident'>new</span>(<span class='ident'>asm_kb</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> () <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='number'>0x8</span>, <span class='number'>0x8e</span>);
+    <span class='ident'>idt</span>[<span class='number'>32</span> <span class='op'>+</span> <span class='number'>14</span>] <span class='op'>=</span> <span class='ident'>Entry</span>::<span class='ident'>new</span>(<span class='ident'>asm_primary_ata</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> () <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='number'>0x8</span>, <span class='number'>0x8e</span>);
+    <span class='ident'>idt</span>[<span class='number'>32</span> <span class='op'>+</span> <span class='number'>15</span>] <span class='op'>=</span> <span class='ident'>Entry</span>::<span class='ident'>new</span>(<span class='ident'>asm_secondary_ata</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> () <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='number'>0x8</span>, <span class='number'>0x8e</span>);
 
     <span class='ident'>idt</span>[<span class='number'>0x80</span>] <span class='op'>=</span> <span class='ident'>Entry</span>::<span class='ident'>new</span>(<span class='ident'>asm_sys</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> () <span class='kw'>as</span> <span class='ident'>u64</span>, <span class='number'>0x8</span>, <span class='number'>0x8e</span>);
 
@@ -183,7 +190,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>Entry</span> {
-    <span class='kw'>pub</span> <span class='kw'>const</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>address</span>: <span class='ident'>u64</span>, <span class='ident'>selector</span>: <span class='ident'>u16</span>, <span class='ident'>typ_attr</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>const</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>address</span>: <span class='ident'>u64</span>, <span class='ident'>selector</span>: <span class='ident'>u16</span>, <span class='ident'>typ_attr</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>Entry</span> {
             <span class='ident'>offset_low</span>: (<span class='ident'>address</span> <span class='kw-2'>&amp;</span> <span class='number'>0x000000000000ffff</span>) <span class='kw'>as</span> <span class='ident'>u16</span>,
             <span class='ident'>selector</span>: <span class='ident'>selector</span>,
@@ -201,6 +208,9 @@
     <span class='kw'>fn</span> <span class='ident'>asm_sys</span>();
     <span class='kw'>fn</span> <span class='ident'>asm_pit</span>();
     <span class='kw'>fn</span> <span class='ident'>asm_kb</span>();
+    <span class='kw'>fn</span> <span class='ident'>asm_primary_ata</span>();
+    <span class='kw'>fn</span> <span class='ident'>asm_secondary_ata</span>();
+
     <span class='kw'>fn</span> <span class='ident'>asm_lidt</span>(<span class='ident'>idtr</span>: <span class='ident'>u64</span>);
 }
 </pre>

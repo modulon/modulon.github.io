@@ -432,7 +432,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>obtain_lock</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>)
     {
-        <span class='kw'>while</span> <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>compare_and_swap</span>(<span class='boolval'>false</span>, <span class='boolval'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>) <span class='op'>!=</span> <span class='boolval'>false</span>
+        <span class='kw'>while</span> <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>compare_and_swap</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>) <span class='op'>!=</span> <span class='boolvalue'>false</span>
         {
             <span class='ident'>cpu_relax</span>();
         }
@@ -467,7 +467,7 @@
     <span class='doccomment'>/// a guard within Some.</span>
     <span class='kw'>fn</span> <span class='ident'>try_lock</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>MutexGuard</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>
     {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>compare_and_swap</span>(<span class='boolval'>false</span>, <span class='boolval'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>) <span class='op'>==</span> <span class='boolval'>false</span>
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>compare_and_swap</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>) <span class='op'>==</span> <span class='boolvalue'>false</span>
         {
             <span class='prelude-val'>Some</span>(
                 <span class='ident'>MutexGuard</span> {
@@ -517,7 +517,7 @@
     <span class='doccomment'>/// The dropping of the MutexGuard will release the lock it was created from.</span>
     <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>)
     {
-        <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>store</span>(<span class='boolval'>false</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
+        <span class='self'>self</span>.<span class='ident'>lock</span>.<span class='ident'>store</span>(<span class='boolvalue'>false</span>, <span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>);
     }
 }
 
