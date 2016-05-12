@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["ata","ATA disk driver"]],"trait":[["Disk",""]]});
+initSidebarItems({"mod":[["ata","ATA specific disk driver"]],"trait":[["Disk","A storage disk"]]});

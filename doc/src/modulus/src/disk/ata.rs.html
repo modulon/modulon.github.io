@@ -292,17 +292,66 @@
 <span id="248">248</span>
 <span id="249">249</span>
 <span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>io</span>::<span class='ident'>pio</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>disk</span>::<span class='ident'>Disk</span>;
 
-<span class='kw'>const</span> <span class='ident'>COMMAND</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x7</span>;
-<span class='kw'>const</span> <span class='ident'>SELECTOR</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x6</span>;
 <span class='kw'>const</span> <span class='ident'>DATA</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x0</span>;
+<span class='kw'>const</span> <span class='ident'>SECTOR_COUNT</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x2</span>;
+<span class='kw'>const</span> <span class='ident'>LBA_LOW</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x3</span>;
+<span class='kw'>const</span> <span class='ident'>LBA_MID</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x4</span>;
+<span class='kw'>const</span> <span class='ident'>LBA_HIGH</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x5</span>;
+<span class='kw'>const</span> <span class='ident'>SELECTOR</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x6</span>;
+<span class='kw'>const</span> <span class='ident'>COMMAND</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>0x7</span>;
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Ata</span> {
     <span class='ident'>base</span>: <span class='ident'>u16</span>,
     <span class='kw'>pub</span> <span class='ident'>slave</span>: <span class='ident'>bool</span>,
+}
+
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list</span>() {
+    <span class='kw'>let</span> <span class='ident'>pm</span> <span class='op'>=</span> <span class='ident'>Ata</span>::<span class='ident'>new</span>(<span class='number'>0x1f0</span>, <span class='boolvalue'>false</span>).<span class='ident'>identify</span>();
+    <span class='kw'>let</span> <span class='ident'>ps</span> <span class='op'>=</span> <span class='ident'>Ata</span>::<span class='ident'>new</span>(<span class='number'>0x1f0</span>, <span class='boolvalue'>true</span>).<span class='ident'>identify</span>();
+
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;Primary Master: \n&quot;</span>);
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>info</span>) <span class='op'>=</span> <span class='ident'>pm</span> {
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;   Serial: &quot;</span>);
+        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>20</span>..<span class='number'>40</span> {
+            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>info</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>char</span>);
+        }
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;\n   Firmware: &quot;</span>);
+        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>46</span>..<span class='number'>54</span> {
+            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>info</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>char</span>);
+        }
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;\n   Model: &quot;</span>);
+        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>54</span>..<span class='number'>94</span> {
+            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>info</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>char</span>);
+        }
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;\n&quot;</span>);
+    } <span class='kw'>else</span> {
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;   No disk found\n&quot;</span>);
+    }
+
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;Primary Slave: \n&quot;</span>);
+    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>info</span>) <span class='op'>=</span> <span class='ident'>ps</span> {
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;   Serial: &quot;</span>);
+        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>20</span>..<span class='number'>40</span> {
+            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>info</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>char</span>);
+        }
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;\n   Firmware: &quot;</span>);
+        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>46</span>..<span class='number'>54</span> {
+            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>info</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>char</span>);
+        }
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;\n   Model: &quot;</span>);
+        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>54</span>..<span class='number'>94</span> {
+            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>info</span>[<span class='ident'>i</span>] <span class='kw'>as</span> <span class='ident'>char</span>);
+        }
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;\n&quot;</span>);
+    } <span class='kw'>else</span> {
+        <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;   No disk found\n&quot;</span>);
+    }
 }
 
 <span class='kw'>impl</span> <span class='ident'>Disk</span> <span class='kw'>for</span> <span class='ident'>Ata</span> {
@@ -393,33 +442,19 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>Ata</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>base</span>: <span class='ident'>u16</span>, <span class='ident'>slave</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>disk</span> <span class='op'>=</span> <span class='ident'>Ata</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>base</span>: <span class='ident'>u16</span>, <span class='ident'>slave</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='ident'>Ata</span> {
             <span class='ident'>base</span>: <span class='ident'>base</span>,
             <span class='ident'>slave</span>: <span class='ident'>slave</span>,
-        };
-
-        <span class='comment'>// Make sure that disk exists</span>
-        <span class='kw'>let</span> <span class='ident'>identity</span> <span class='op'>=</span> <span class='ident'>disk</span>.<span class='ident'>identify</span>();
-
-        <span class='comment'>// BUG: This initial read required on some emulators such as QEMU</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>512</span>];
-        <span class='ident'>disk</span>.<span class='ident'>read</span>(<span class='number'>0x40</span>, <span class='number'>1</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>buffer</span>);
-
-        <span class='kw'>if</span> <span class='ident'>identity</span>.<span class='ident'>is_none</span>() {
-            <span class='prelude-val'>None</span>
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>disk</span>)
         }
     }
 
     <span class='doccomment'>/// IDENTIFY command</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// Returns information about a drive if it exists.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>identify</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>identify</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>[<span class='ident'>u8</span>; <span class='number'>512</span>]<span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>command</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>COMMAND</span>;
         <span class='kw'>let</span> <span class='ident'>selector</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>SELECTOR</span>;
-        <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>DATA</span>;
 
         <span class='comment'>// Select drive</span>
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>slave</span> {
@@ -428,10 +463,10 @@
             <span class='ident'>outb</span>(<span class='ident'>selector</span>, <span class='number'>0xa0</span>);
         }
 
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>2</span>, <span class='number'>0</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>3</span>, <span class='number'>0</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>4</span>, <span class='number'>0</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>5</span>, <span class='number'>0</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>SECTOR_COUNT</span>, <span class='number'>0</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_LOW</span>, <span class='number'>0</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_MID</span>, <span class='number'>0</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_HIGH</span>, <span class='number'>0</span>);
 
         <span class='comment'>// Send IDENTIFY command</span>
         <span class='ident'>outb</span>(<span class='ident'>command</span>, <span class='number'>0xec</span>);
@@ -447,63 +482,32 @@
             }
 
             <span class='comment'>// Check if drive is ATA</span>
-            <span class='kw'>if</span> <span class='ident'>inb</span>(<span class='number'>0x1f4</span>) <span class='op'>!=</span> <span class='number'>0</span> {
-                <span class='kw'>return</span> <span class='prelude-val'>None</span>;
-            }
-            <span class='kw'>if</span> <span class='ident'>inb</span>(<span class='number'>0x1f5</span>) <span class='op'>!=</span> <span class='number'>0</span> {
+            <span class='kw'>if</span> <span class='ident'>inb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_MID</span>) <span class='op'>!=</span> <span class='number'>0</span> {
                 <span class='kw'>return</span> <span class='prelude-val'>None</span>;
             }
 
-            <span class='comment'>// while (status &amp; 0b00001111) == 0 {</span>
-            <span class='comment'>//    status = inb(command);</span>
-            <span class='comment'>// }</span>
+            <span class='kw'>if</span> <span class='ident'>inb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_HIGH</span>) <span class='op'>!=</span> <span class='number'>0</span> {
+                <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+            }
+
+            <span class='kw'>while</span> (<span class='ident'>status</span> <span class='kw-2'>&amp;</span> <span class='number'>0b00001111</span>) <span class='op'>==</span> <span class='number'>0</span> {
+                <span class='ident'>status</span> <span class='op'>=</span> <span class='ident'>inb</span>(<span class='ident'>command</span>);
+            }
 
             <span class='comment'>// Check if ERR is set</span>
             <span class='kw'>if</span> (<span class='ident'>status</span> <span class='kw-2'>&amp;</span> <span class='number'>0b00000111</span>) <span class='op'>!=</span> <span class='number'>0</span> {
                 <span class='kw'>return</span> <span class='prelude-val'>None</span>;
             }
 
-            <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>inb</span>(<span class='ident'>data</span>));
-        }
-    }
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>buffer</span> <span class='op'>=</span> [<span class='number'>0u8</span>; <span class='number'>512</span>];
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>read28</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>lba</span>: <span class='ident'>u32</span>, <span class='ident'>count</span>: <span class='ident'>u8</span>, <span class='ident'>buffer</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u16</span>) {
-        <span class='kw'>let</span> <span class='ident'>selector</span>;
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>slave</span> {
-            <span class='ident'>selector</span> <span class='op'>=</span> <span class='number'>0xf0</span>;
-        } <span class='kw'>else</span> {
-            <span class='ident'>selector</span> <span class='op'>=</span> <span class='number'>0xe0</span>;
-        }
-
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>SELECTOR</span>, <span class='ident'>selector</span> <span class='op'>|</span> ((<span class='ident'>lba</span> <span class='op'>&gt;&gt;</span> <span class='number'>24</span>) <span class='kw-2'>&amp;</span> <span class='number'>0xf0</span>) <span class='kw'>as</span> <span class='ident'>u8</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>1</span>, <span class='number'>0</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>2</span>, <span class='ident'>count</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>3</span>, <span class='ident'>lba</span> <span class='kw'>as</span> <span class='ident'>u8</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>4</span>, (<span class='ident'>lba</span> <span class='op'>&gt;&gt;</span> <span class='number'>8</span>) <span class='kw'>as</span> <span class='ident'>u8</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>5</span>, (<span class='ident'>lba</span> <span class='op'>&gt;&gt;</span> <span class='number'>16</span>) <span class='kw'>as</span> <span class='ident'>u8</span>);
-        <span class='comment'>// Send READ SECTORS command</span>
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>COMMAND</span>, <span class='number'>0x20</span>);
-
-        <span class='comment'>// Wait until BSY is cleared</span>
-        <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>count</span> {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>status</span> <span class='op'>=</span> <span class='ident'>inb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>COMMAND</span>);
-            <span class='kw'>while</span> (<span class='ident'>status</span> <span class='kw-2'>&amp;</span> <span class='number'>0b10000000</span>) <span class='op'>!=</span> <span class='number'>0</span> {
-                <span class='ident'>status</span> <span class='op'>=</span> <span class='ident'>inb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>COMMAND</span>);
-            }
-            <span class='kw'>while</span> (<span class='ident'>status</span> <span class='kw-2'>&amp;</span> <span class='number'>0b00001000</span>) <span class='op'>==</span> <span class='number'>0</span> {
-                <span class='ident'>status</span> <span class='op'>=</span> <span class='ident'>inb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>COMMAND</span>);
-            }
-
-            <span class='comment'>// Read sector</span>
-            <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>255</span> {
+            <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>256</span> {
                 <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>inw</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>DATA</span>);
-                <span class='kw'>unsafe</span> {
-                    <span class='op'>*</span><span class='ident'>buffer</span>.<span class='ident'>offset</span>(<span class='ident'>i</span>) <span class='op'>=</span> <span class='ident'>data</span>;
-                }
-                <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{:0x}&quot;</span>, <span class='kw'>unsafe</span> { <span class='op'>*</span><span class='ident'>buffer</span>.<span class='ident'>offset</span>(<span class='ident'>i</span>) });
+                <span class='ident'>buffer</span>[<span class='ident'>i</span> <span class='op'>*</span> <span class='number'>2</span>] <span class='op'>=</span> (<span class='ident'>data</span> <span class='op'>&gt;&gt;</span> <span class='number'>8</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
+                <span class='ident'>buffer</span>[<span class='ident'>i</span> <span class='op'>*</span> <span class='number'>2</span> <span class='op'>+</span> <span class='number'>1</span>] <span class='op'>=</span> <span class='ident'>data</span> <span class='kw'>as</span> <span class='ident'>u8</span>;
             }
 
-            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; : &quot;</span>);
+            <span class='prelude-val'>Some</span>(<span class='ident'>buffer</span>)
         }
     }
 
@@ -515,15 +519,15 @@
         <span class='kw'>let</span> <span class='ident'>lba5</span> <span class='op'>=</span> ((<span class='ident'>lba</span> <span class='kw-2'>&amp;</span> <span class='number'>0x00ff00000000</span>) <span class='op'>&gt;&gt;</span> <span class='number'>32</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
         <span class='kw'>let</span> <span class='ident'>lba6</span> <span class='op'>=</span> ((<span class='ident'>lba</span> <span class='kw-2'>&amp;</span> <span class='number'>0xff0000000000</span>) <span class='op'>&gt;&gt;</span> <span class='number'>40</span>) <span class='kw'>as</span> <span class='ident'>u8</span>;
 
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>2</span>, (<span class='ident'>count</span> <span class='kw-2'>&amp;</span> <span class='number'>0xff00</span>) <span class='kw'>as</span> <span class='ident'>u8</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>3</span>, <span class='ident'>lba4</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>4</span>, <span class='ident'>lba5</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>5</span>, <span class='ident'>lba6</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>SECTOR_COUNT</span>, (<span class='ident'>count</span> <span class='kw-2'>&amp;</span> <span class='number'>0xff00</span>) <span class='kw'>as</span> <span class='ident'>u8</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_LOW</span>, <span class='ident'>lba4</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_MID</span>, <span class='ident'>lba5</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_HIGH</span>, <span class='ident'>lba6</span>);
 
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>2</span>, (<span class='ident'>count</span> <span class='kw-2'>&amp;</span> <span class='number'>0x00ff</span>) <span class='kw'>as</span> <span class='ident'>u8</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>3</span>, <span class='ident'>lba1</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>4</span>, <span class='ident'>lba2</span>);
-        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='number'>5</span>, <span class='ident'>lba3</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>SECTOR_COUNT</span>, (<span class='ident'>count</span> <span class='kw-2'>&amp;</span> <span class='number'>0x00ff</span>) <span class='kw'>as</span> <span class='ident'>u8</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_LOW</span>, <span class='ident'>lba1</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_MID</span>, <span class='ident'>lba2</span>);
+        <span class='ident'>outb</span>(<span class='self'>self</span>.<span class='ident'>base</span> <span class='op'>+</span> <span class='ident'>LBA_HIGH</span>, <span class='ident'>lba3</span>);
     }
 
     <span class='kw'>fn</span> <span class='ident'>delay_400ns</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {

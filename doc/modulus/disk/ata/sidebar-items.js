@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Ata",""]]});
+initSidebarItems({"fn":[["list",""]],"struct":[["Ata",""]]});

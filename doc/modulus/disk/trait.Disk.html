@@ -47,14 +47,28 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-538' class='srclink' href='../../src/modulus/src/disk/mod.rs.html#4-7' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-580' class='srclink' href='../../src/modulus/src/disk/mod.rs.html#8-21' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Disk {
     fn <a href='#tymethod.read' class='fnname'>read</a>(&amp;self, block: u64, count: u16, buffer: &amp;mut [u8]);
     fn <a href='#tymethod.write' class='fnname'>write</a>(&amp;self, block: u64, count: u16, buffer: &amp;[u8]);
-}</pre>
+}</pre><div class='docblock'><p>A storage disk</p>
+
+<p>This is a trait implemented by specific disk types (ATA, ATAPI, SATA) for transferring data
+between a disk and memory.</p>
+</div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.read' class='method stab '><code>fn <a href='#tymethod.read' class='fnname'>read</a>(&amp;self, block: u64, count: u16, buffer: &amp;mut [u8])</code></h3><h3 id='tymethod.write' class='method stab '><code>fn <a href='#tymethod.write' class='fnname'>write</a>(&amp;self, block: u64, count: u16, buffer: &amp;[u8])</code></h3></div>
+        <h3 id='tymethod.read' class='method stab '><code>fn <a href='#tymethod.read' class='fnname'>read</a>(&amp;self, block: u64, count: u16, buffer: &amp;mut [u8])</code></h3><div class='docblock'><p>Read from disk</p>
+
+<p>Read content from the disk at specified block. To read multiple blocks/sectors, change the
+<code>count</code> parameter to the chosen number of blocks. The <code>buffer</code> should be an array of <code>u8</code>s
+of size <code>count * 512</code>. This is where to received data will be written.</p>
+</div><h3 id='tymethod.write' class='method stab '><code>fn <a href='#tymethod.write' class='fnname'>write</a>(&amp;self, block: u64, count: u16, buffer: &amp;[u8])</code></h3><div class='docblock'><p>Write to disk</p>
+
+<p>Write content to the disk at specified block. To write multiple blocks/sectors, change the
+<code>count</code> parameter to the chosen number of blocks. The <code>buffer</code> should be an array of <code>u8</code>s
+of size <code>count * 512</code>. This is where the data to be written will be located.</p>
+</div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     <li><code>impl Disk for <a class='struct' href='../../modulus/disk/ata/struct.Ata.html' title='modulus::disk::ata::Ata'>Ata</a></code></li>

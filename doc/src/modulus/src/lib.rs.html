@@ -142,10 +142,6 @@
 <span id="98"> 98</span>
 <span id="99"> 99</span>
 <span id="100">100</span>
-<span id="101">101</span>
-<span id="102">102</span>
-<span id="103">103</span>
-<span id="104">104</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>lang_items</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>const_fn</span>)]</span>
@@ -232,22 +228,18 @@
     <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; &gt;&gt; Initializing IDT\n&quot;</span>);
     <span class='ident'>int</span>::<span class='ident'>init</span>();
 
-    <span class='ident'>env</span>::<span class='ident'>time</span>::<span class='ident'>init</span>();
     <span class='comment'>// Initialize PIT</span>
-    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; &gt;&gt; Initializing PIT\n&quot;</span>);
+    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot; &gt;&gt; Initializing PIT\n\n&quot;</span>);
+    <span class='ident'>env</span>::<span class='ident'>time</span>::<span class='ident'>init</span>();
+
+    <span class='comment'>// List disks</span>
+    <span class='ident'>disk</span>::<span class='ident'>ata</span>::<span class='ident'>list</span>();
+
+    <span class='comment'>// fs.find();</span>
 
     <span class='ident'>terminal</span>::<span class='ident'>TERM</span>.<span class='ident'>lock</span>().<span class='ident'>set_color</span>(<span class='ident'>GREEN</span>);
     <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;\nStartup time: {}ms\n&quot;</span>, <span class='ident'>env</span>::<span class='ident'>time</span>::<span class='ident'>ms</span>());
     <span class='ident'>terminal</span>::<span class='ident'>TERM</span>.<span class='ident'>lock</span>().<span class='ident'>set_color</span>(<span class='ident'>WHITE</span>);
-
-    <span class='kw'>let</span> <span class='ident'>disk</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>disk</span>::<span class='ident'>ata</span>::<span class='ident'>Ata</span>::<span class='ident'>new</span>(<span class='number'>0x1f0</span>, <span class='boolvalue'>false</span>) {
-        <span class='prelude-val'>Some</span>(<span class='ident'>disk</span>) <span class='op'>=&gt;</span> <span class='ident'>disk</span>,
-        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>disk</span>::<span class='ident'>ata</span>::<span class='ident'>Ata</span>::<span class='ident'>new</span>(<span class='number'>0x1f0</span>, <span class='boolvalue'>true</span>).<span class='ident'>unwrap</span>(),
-    };
-
-    <span class='kw'>let</span> <span class='ident'>fs</span> <span class='op'>=</span> <span class='ident'>fs</span>::<span class='ident'>iso9660</span>::<span class='ident'>Iso9660</span>::<span class='ident'>new</span>(<span class='ident'>disk</span>);
-    <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>fs</span>.<span class='ident'>is_some</span>());
-    <span class='comment'>// fs.find();</span>
 
     <span class='kw'>loop</span> {}
 }
